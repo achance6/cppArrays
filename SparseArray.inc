@@ -1,6 +1,3 @@
-#include "SparseArray.h"
-#include "SparseArray.h"
-
 template<typename T>
 SparseArray<T>::SparseArray(int length, T def) {
     head = nullptr;

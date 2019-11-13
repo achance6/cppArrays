@@ -23,7 +23,7 @@ private:
 		T data;
 		Node * next;
 		int position;
-  };
+    };
   int len;
   Node * head;
   Node * find(int position);

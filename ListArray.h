@@ -4,11 +4,14 @@
 
 template<typename T>
 class ListArray : Array<T> {
+    class Node;
 public:
     ListArray(int length, T def);
+    ListArray(const ListArray& other);
     T get(int position);
     void put(int position, T data);
     int length() { return len; }
+    
 private:
     T def;
     class Node {

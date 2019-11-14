@@ -6,10 +6,19 @@ ListArray<T>::ListArray(int length, T def) : len(length), def(def)
 }
 
 template<typename T>
+ListArray<T>::ListArray(const typename ListArray& other) {
+    ListArray<T> newList = new ListArray(len, def);
+    Node* cur = other->head;
+    while (cur != NULL) {
+        newList->put(cur->position, cur->data);
+        cur = cur->next;
+    }
+}
+
+template<typename T>
 T ListArray<T>::get(int position) {
     if (position < 0 || position > len) {
-        std::cerr << "INVALID POS" << std::endl;
-        std::exit(0);
+        throw std::out_of_range("Invalid index");
     }
     return find(position)->data;
 }
@@ -17,8 +26,7 @@ T ListArray<T>::get(int position) {
 template<typename T>
 void ListArray<T>::put(int position, T data) {
     if (position < 0 || position > len) {
-        std::cerr << "INVALID POS" << std::endl;
-        std::exit(0);
+        throw std::out_of_range("Invalid Index");
     }
     Node* node = find(position);
     node->data = data;

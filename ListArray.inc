@@ -7,26 +7,42 @@ ListArray<T>::ListArray(int length, T def) : len(length), def(def)
 
 template<typename T>
 ListArray<T>::ListArray(const typename ListArray& other) {
-    ListArray<T> newList = new ListArray(len, def);
-    Node* cur = other->head;
+    len = other.len;
+    def = other.def;
+    for (int i = 0; i < len; i++) prepend(def);
+    Node* cur = other.head;
     while (cur != NULL) {
-        newList->put(cur->position, cur->data);
+        std::cout << cur->data << std::endl;
+        put(cur->position, cur->data);
         cur = cur->next;
+    }
+}
+
+template<typename T>
+ListArray<T>::~ListArray() {
+    Node* cur = head;
+    while (cur != NULL) {
+        Node* deleted = cur;
+        cur = cur->next;
+        delete deleted;
     }
 }
 
 template<typename T>
 T ListArray<T>::get(int position) {
     if (position < 0 || position > len) {
-        throw std::out_of_range("Invalid index");
+        std::cerr << "INVALID INDEX" << len << std::endl;
+        std::exit(0);
     }
     return find(position)->data;
 }
 
 template<typename T>
 void ListArray<T>::put(int position, T data) {
-    if (position < 0 || position > len) {
-        throw std::out_of_range("Invalid Index");
+    //FIXME: What if user puts at -1.
+    if (position < -1 || position > len) {
+        std::cerr << "INVALID INDEX" << position << std::endl;
+        std::exit(0);
     }
     Node* node = find(position);
     node->data = data;
@@ -35,7 +51,8 @@ void ListArray<T>::put(int position, T data) {
 template<typename T>
 typename ListArray<T>::Node* ListArray<T>::find(int position) {
     Node* cur = head;
-    for (int i = 0; i < position && cur != nullptr; i++) {
+    for (int i = 0; i < position && cur != NULL; i++) {
+        if (position == -1 && cur->position == -1) return cur;
         cur = cur->next;
     }
     return cur;

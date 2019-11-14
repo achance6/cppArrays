@@ -8,6 +8,7 @@ class ListArray : Array<T> {
 public:
     ListArray(int length, T def);
     ListArray(const ListArray& other);
+    ~ListArray();
     T get(int position);
     void put(int position, T data);
     int length() { return len; }

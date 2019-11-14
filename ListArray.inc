@@ -9,11 +9,14 @@ template<typename T>
 ListArray<T>::ListArray(const typename ListArray& other) {
     len = other.len;
     def = other.def;
-    for (int i = 0; i < len; i++) prepend(def);
     Node* cur = other.head;
+    for (int i = 0; i < len; i++) {
+        prepend(def);
+    }
     while (cur != NULL) {
-        std::cout << cur->data << std::endl;
-        put(cur->position, cur->data);
+        if (cur->position != -1) {
+            put(cur->position, cur->data);
+        }
         cur = cur->next;
     }
 }
@@ -39,20 +42,19 @@ T ListArray<T>::get(int position) {
 
 template<typename T>
 void ListArray<T>::put(int position, T data) {
-    //FIXME: What if user puts at -1.
-    if (position < -1 || position > len) {
+    if (position < 0 || position > len) {
         std::cerr << "INVALID INDEX" << position << std::endl;
         std::exit(0);
     }
     Node* node = find(position);
     node->data = data;
+    node->position = position;
 }
 
 template<typename T>
 typename ListArray<T>::Node* ListArray<T>::find(int position) {
     Node* cur = head;
     for (int i = 0; i < position && cur != NULL; i++) {
-        if (position == -1 && cur->position == -1) return cur;
         cur = cur->next;
     }
     return cur;
